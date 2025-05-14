@@ -29,6 +29,6 @@ COPY --from=builder /app/node_modules ./node_modules
 # If you use custom server (e.g., Express), copy it too
 # COPY --from=builder /app/server.js ./server.js
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["npm", "start"]
