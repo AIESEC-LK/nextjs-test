@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios'
 import { Button, Callout, Spinner, TextField } from '@radix-ui/themes'
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import dynamic from 'next/dynamic'
 import "easymde/dist/easymde.min.css";
 import { useForm, Controller } from "react-hook-form";
@@ -27,7 +27,6 @@ const NewIssuePage = () => {
    const [error, setError] = useState("");
 
 const router = useRouter();
-const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
 <div className='max-w-xl'>
@@ -41,10 +40,12 @@ const [isSubmitting, setIsSubmitting] = useState(false);
         
         try{
             
-            setIsSubmitting(true);
+          
             await axios.post('/api/issues',data);
-            setIsSubmitting(false);
-        router.push('/issues')}catch(error){setError("An error occurred while creating the issue. Please try again ");}
+          
+        router.push('/issues')}catch(error){setError("An error occurred while creating the issue. Please try again ")
+          console.log(error);
+          ;}
         
     })} className='max-w-xl space-y-3'>
       <TextField.Root placeholder="Enter the title of the issue" {...register('title')} />
