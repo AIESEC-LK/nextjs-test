@@ -23,8 +23,9 @@ jobs:
     - name: Deploy via SSH
       run: |
         ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+          rm -rf ~/nextjs-test
+          git clone https://github.com/AIESEC-LK/nextjs-test.git ~/nextjs-test
           cd ~/nextjs-test
-          git pull origin main
           sudo docker stop app-main-1 app-main-2 app-main-3 || true
           sudo docker rm app-main-1 app-main-2 app-main-3 || true
           sudo docker rmi main-app-image || true
