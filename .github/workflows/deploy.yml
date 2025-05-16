@@ -1,0 +1,38 @@
+name: Deploy to Azure VM
+
+on:
+  push:
+    branches:
+      - devolopment
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deploy via SSH
+      run: |
+        ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+          
+          rm -rf nextjs-test-dev
+          git clone -b development https://github.com/AIESEC-LK/nextjs-test.git ~/nextjs-test-dev
+          cd nextjs-test-dev
+          sudo docker stop app-dev || true
+          sudo docker rm app-dev || true
+          sudo docker rmi dev-image || true
+          sudo docker build -t dev-image .
+          sudo docker run -d -p 3000:3000 --name app-dev dev-image
+          
+          
+        EOF
+        
