@@ -25,7 +25,7 @@ jobs:
         ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
           
           rm -rf nextjs-test-dev
-          git clone -b development https://github.com/AIESEC-LK/nextjs-test.git ~/nextjs-test-dev
+          git clone -b devolopment https://github.com/AIESEC-LK/nextjs-test.git ~/nextjs-test-dev
           cd nextjs-test-dev
           sudo docker stop app-dev || true
           sudo docker rm app-dev || true
