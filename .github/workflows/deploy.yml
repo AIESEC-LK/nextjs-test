@@ -25,11 +25,11 @@ jobs:
         ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd ~/nextjs-test
           git pull origin main
-          docker stop app-main-1 app-main-2 app-main-3 || true
-          docker rm app-main-1 app-main-1 app-main-1 || true
-          docker rmi main-app-image || true
-          docker build -t nextjs-test .
-          docker run -d -p 3001:3000 --name app-main-1 main-app-image
-          docker run -d -p 3002:3000 --name app-main-1 main-app-image
-          docker run -d -p 3003:3000 --name app-main-1 main-app-image
+          sudo docker stop app-main-1 app-main-2 app-main-3 || true
+          sudo docker rm app-main-1 app-main-2 app-main-3 || true
+          sudo docker rmi main-app-image || true
+          sudo docker build -t main-app-image .
+          sudo docker run -d -p 3001:3000 --name app-main-1 main-app-image
+          sudo docker run -d -p 3002:3000 --name app-main-2 main-app-image
+          sudo docker run -d -p 3003:3000 --name app-main-3 main-app-image
         EOF
